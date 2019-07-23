@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: "to install webserver"
+    package:
+      name: "{{package_name}}"
+      state: present
+    when: ansible_facts['os_family'] == "Debain"
+    notify: "to restart the webserver"
+  - name: "to install php&mysql"
+    package:
+      name: "{{item}}"
+      state: present
+    loop:
+      - php
+      - php-mcrypt
+      - mysql-server
+  - name: "to restart the webserver"
+    service:
+      name: "{{package_name}}"
+      state: restarted
+    
+
+    

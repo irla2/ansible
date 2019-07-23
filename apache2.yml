@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: "to installing the webserver"
+    package:
+      name: "{{ package_name }}"
+      state: absent 
+  - name: "to service restart the webserver"
+    service:
+      name: "{{ package_name }}"
+      state: restarted
+  - name: "to update "
+    apt:
+      name: update
+
+
+
+
+

@@ -1,0 +1,18 @@
+172.31.23.186
+localhost
+
+[webservers]
+localhost package_name = apache2
+
+[DB-server]
+172.31.23.186 package_name = apache2
+172.31.15.25
+
+[DB-server:vars]
+package_name = httpd
+
+
+
+[north-india:children]
+webservers
+DB-server

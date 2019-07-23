@@ -1,0 +1,38 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    user_name: 'admin'
+    user_password: 'ramu123'
+  tasks:
+  - name: "finding os family"
+    debug:
+      msg: os is {{ansible_os_family}}
+  - name: "install java"
+    package:
+      name: openjdk-8-jdk
+      state: present
+    
+  - name: "install tomact"
+    package:
+      name: tomcat8
+      state: present
+  - name: "to installing supporting files on tomcat"
+    package:
+      name: "{{item}}"
+      state: present
+    loop:
+      - tomcat8-docs
+      - tomcat8-examples
+      - tomcat8-admin
+    when: ansible_facts['os_family'] == "Debian"
+  - name: "to copy the file"
+    template:
+      src: /home/ansible/playbooks/tomcat/tomcat-users.j2
+      dest: /var/lib/tomcat8/conf/tomcat-users.xml
+       
+  - name: "service statrt "
+    service:
+      name: tomcat8
+      state: restarted
+   

@@ -1,0 +1,33 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    user_name: 'tomcat'
+    user_password: 'password'
+  tasks:
+  - name: install httpd server
+    package:
+      name: java
+      state: present
+  - name: to download the tomcat
+    get_url:
+      url: http://mirrors.estointernet.in/apache/tomcat/tomcat-7/v7.0.94/bin/apache-tomcat-7.0.94.tar.gz
+      dest: /home/ansible
+  - name: to create a directory
+    file:
+      path: /usr/local/tomcat7
+      state: directory
+      mode: '0755'
+  - name: untar the package
+    unarchive:
+      src: /home/ansible/apache-tomcat-7.0.94.tar.gz
+      dest: /usr/local/tomcat7
+      remote_src: yes
+  - name: to run the tomcat7 scripting 
+    script: /home/ansible/playbooks/tomcat/script.sh
+  - name: to create a jinja2 template
+    template:
+      src: /home/ansible/playbooks/tomcat/tomcat-users.j2
+      dest: /usr/local/tomcat7/apache-tomcat-7.0.94/conf/tomcat-users.xml
+
+    

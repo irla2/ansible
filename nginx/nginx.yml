@@ -1,0 +1,15 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+  - name: to inatall nginx
+    apt: 
+      name: nginx
+      state: absent
+    when: ansible_facts['os_family'] == "Debian"
+  - name: service start the nginx
+    service:
+      name: nginx
+      state: started
+
+     
