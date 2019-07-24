@@ -30,7 +30,10 @@
     template:
       src: /home/ansible/playbooks/tomcat/tomcat-users.j2
       dest: /var/lib/tomcat8/conf/tomcat-users.xml
-       
+  - name: "to deploy the warfile into tomcat"
+    get_url:
+      url: https://ramus3.s3.us-east-2.amazonaws.com/gameoflife-web/target/gameoflife.war
+      dest: /var/lib/tomcat8/webapps/gameoflife.war      
   - name: "service statrt "
     service:
       name: tomcat8
